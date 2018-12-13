@@ -1,60 +1,62 @@
 interface Button {
-	Paint(): void;
+	paint(): void;
 }
 
 interface Factory {
-	CreateButton(): Button;
+	createButton(): Button;
 }
 
 class OSXFactory<T> {
-	public CreateButton() {
+	private platform = 'OSX';
+
+	public createButton() {
 		return new OSXButton();
 	}
 }
 
 class AndroidFactory<T> {
-	public CreateButton() {
+	private platform = 'Android';
+
+	public createButton() {
 		return new AndroidButton();
 	}
 
-	public Igor() {
+	public someMethod() {
 		return new AndroidButton();
 	}
 }
 
 class OSXButton {
-	public Paint(): void {
+	public paint(): void {
 		console.log('SomePaintWorkOSX');
 	}
 }
 
 class AndroidButton {
-	public Paint(): void {
+	public paint(): void {
 		console.log('SomePaintWorkAndroid');
 	}
 }
 
 export class Program {
-	public static Main() {
+	public static main() {
 		const appearance = Program.randomAppearance();
-		console.log('appearance', appearance);
-
 		let factory;
 
 		switch (appearance) {
 		  case "OSX":
 		  	factory = new OSXFactory<Factory>();
 		    break;
-		  case "Windows":
+		  case "Android":
 			  factory = new AndroidFactory<Factory>();
 		    break;
 		  default:
-		  	throw new Error("No such operating system");
+		  	factory = new AndroidFactory<Factory>();
 		}
 
 
-		const button = factory.CreateButton();
-		button.Paint();
+		const button = factory.createButton();
+		button.paint();
 
 		return factory;
 	}
@@ -63,8 +65,7 @@ export class Program {
 		const appearanceArray = [];
 
 		appearanceArray.push("OSX");
-		appearanceArray.push("Windows");
-		appearanceArray.push("error");
+		appearanceArray.push("Android");
 
 		return appearanceArray[Math.floor(Math.random() * appearanceArray.length)];
 	}
