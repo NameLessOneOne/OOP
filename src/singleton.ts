@@ -1,34 +1,22 @@
 export class Singleton {
-	private static _instance: Singleton = new Singleton();
+	private static instance: Singleton;
+	private someNumber = 0;
 
-	private _someNumber = 0;
-
-	private constructor() {
-		// lazy initialization
-		if (Singleton._instance) {
-			return Singleton._instance;
-		}
-
-		Singleton._instance = this;
-	}
+	private constructor() {}
 
 	public static getInstance(): Singleton {
-		return Singleton._instance;
+		if (Singleton.instance) {
+			return Singleton.instance;
+		}
+
+		return Singleton.instance = new Singleton();
 	}
 
 	public increaseNumber(): void {
-		this._someNumber++;
+		this.someNumber++;
 	}
 
 	public decreaseNumber(): void {
-		this._someNumber++;
-	}
-
-	public setNumber(number: number): void {
-		this._someNumber = number;
-	}
-
-	public getNumber(): number {
-		return this._someNumber;
+		this.someNumber--;
 	}
 }
