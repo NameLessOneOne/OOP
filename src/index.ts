@@ -10,30 +10,50 @@ import {Subject} from "./observer";
 import {Mediator, Person} from "./mediator";
 
 (function observer() {
-	const someEvent = new Subject<string>();
-	someEvent.subscribe((res: string) => {
-		console.log(res);
-	});
+	const someEvent = new Subject<string, Error>();
+	const someSubId = someEvent.subscribe(
+		(res: string) => {
+			console.log(res);
+		},
+		(err: Error) => {
+			console.log('error', err);
+		},
+		() => {
+			console.log('Complete');
+		},
+	);
+
+	const someSubId2 = someEvent.subscribe(
+		(res: string) => {
+			console.log(res);
+		}
+	);
+
+	console.log('someSub', someSubId);
 
 	someEvent.next('vasya');
 	someEvent.next('igor');
 	someEvent.next('oleg');
 	someEvent.next();
 
-	someEvent.unsubscribe();
-	someEvent.next('not oleg');
+	// someEvent.unsubscribe(someSubId);
+	// someEvent.next('not oleg');
+	someEvent.complete();
+
+	someEvent.subscribe((v) => v);
+	someEvent.unsubscribe(0);
 })();
 
 
-(function mediator() {
-	const mediator = new Mediator();
-	const person1 = new Person(mediator, 'Igor');
-	const person2 = new Person(mediator, 'Valera');
-
-	person1.send('halo');
-	person1.send('vasya');
-	person2.send('oleg eto igor');
-})();
+// (function mediator() {
+// 	const mediator = new Mediator();
+// 	const person1 = new Person(mediator, 'Igor');
+// 	const person2 = new Person(mediator, 'Valera');
+//
+// 	person1.send('halo');
+// 	person1.send('vasya');
+// 	person2.send('oleg eto igor');
+// })();
 
 // (function singleton() {
 // 	Singleton.getInstance().increaseNumber();

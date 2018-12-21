@@ -6,13 +6,7 @@ export class Mediator {
 }
 
 export class Person {
-	private mediator: Mediator;
-	name: string;
-
-	constructor(mediator: Mediator, name: string) {
-		this.mediator = mediator;
-		this.name = name;
-	}
+	constructor(private mediator: Mediator, private name: string) {}
 
 	public send(message: string) {
 		this.mediator.send(this.name, message, this.receive);
