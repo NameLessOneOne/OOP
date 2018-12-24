@@ -36,7 +36,9 @@ export class Subject<T, E extends Error> implements Observer<T, E> {
 
 	unsubscribe(id: number): void {
 		this.observers = this.observers.filter((v) => {
-			if (!(v.id !== id)) if (v) v.complete();
+			if (!(v.id !== id)) {
+				if (v) v.complete();
+			}
 			return v.id !== id;
 		});
 
@@ -70,8 +72,8 @@ export interface Subscriber<T, E> {
 	complete(): void;
 }
 
-const errorMessage = {
-	subscribe: 'You can not subscribe because subject is completed!',
-	unsubscribe: 'There is no observer with this id!',
-	next: 'You can not next because subject is completed!',
-};
+enum errorMessage {
+	subscribe = 'You can not subscribe because subject is completed!',
+	unsubscribe = 'There is no observer with this id!',
+	next = 'You can not next because subject is completed!'
+}
