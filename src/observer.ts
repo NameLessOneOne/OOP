@@ -24,7 +24,7 @@ export class Subject<T, E extends Error> implements Observer<T, E> {
 			return null;
 		}
 
-		const id = Date.now();
+		const id = Math.random();
 
 		this.observers.push({id, update, error, complete});
 		return id;
@@ -34,12 +34,9 @@ export class Subject<T, E extends Error> implements Observer<T, E> {
 		console.log(error);
 	}
 
-	unsubscribe(id: number): void {
+	unsubscribe(id: number | null): void {
 		this.observers = this.observers.filter((v) => {
-			if (!(v.id !== id)) {
-				if (v) v.complete();
-			}
-			return v.id !== id;
+			return v && (v.id !== id || v.complete());
 		});
 
 		if (this.observers.length === 0) {
@@ -47,7 +44,7 @@ export class Subject<T, E extends Error> implements Observer<T, E> {
 		}
 	}
 
-	complete() {
+	complete(): void {
 		this.observers.forEach((v) => v.complete());
 		this.observers = [];
 		this.closed = true;

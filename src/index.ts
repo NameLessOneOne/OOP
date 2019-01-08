@@ -13,29 +13,29 @@ import {Decorator} from "./decorator";
 import bigHome = Decorator.bigHome;
 import log = Decorator.log;
 
-(function Decorator() {
-	@bigHome('triangle')
-	class Home {
-		name = 'Home';
-
-		@log
-		openTheDoor(frontDoor: string, backDoor: string) {
-			console.log(`Doing some stuff`);
-		}
-	}
-
-	const home = new Home();
-	home.openTheDoor('Front Door', 'Second Door');
-	console.log('home', home);
-
-	const otherHouse = bigHome()(class {});
-	const newOtherHouse = new otherHouse();
-	newOtherHouse.secondFloorLightOn();
-})();
-
-(function Proxy() {
-
-})();
+// (function Decorator() {
+// 	@bigHome('triangle')
+// 	class Home {
+// 		name = 'Home';
+//
+// 		@log
+// 		openTheDoor(frontDoor: string, backDoor: string) {
+// 			console.log(`Doing some stuff`);
+// 		}
+// 	}
+//
+// 	const home = new Home();
+// 	home.openTheDoor('Front Door', 'Second Door');
+// 	console.log('home', home);
+//
+// 	const otherHouse = bigHome()(class {});
+// 	const newOtherHouse = new otherHouse();
+// 	newOtherHouse.secondFloorLightOn();
+// })();
+//
+// (function Proxy() {
+//
+// })();
 
 // (function composite() {
 // 	const factory1 = new Composite.CarFactory('Ferrari');
@@ -60,41 +60,41 @@ import log = Decorator.log;
 // 	factory2.display();
 // 	factory3.display();
 // }());
-//
-// (function observer() {
-// 	const someEvent = new Subject<string, Error>();
-// 	const someSubId = someEvent.subscribe(
-// 		(res: string) => {
-// 			console.log(res);
-// 		},
-// 		(err: Error) => {
-// 			console.log('error', err);
-// 		},
-// 		() => {
-// 			console.log('Complete');
-// 		},
-// 	);
-//
-// 	const someSubId2 = someEvent.subscribe(
-// 		(res: string) => {
-// 			console.log(res);
-// 		}
-// 	);
-//
-// 	console.log('someSub', someSubId);
-//
-// 	someEvent.next('vasya');
-// 	someEvent.next('igor');
-// 	someEvent.next('oleg');
-// 	someEvent.next();
-//
-// 	// someEvent.unsubscribe(someSubId);
-// 	// someEvent.next('not oleg');
-// 	someEvent.complete();
-//
-// 	someEvent.subscribe((v) => v);
-// 	someEvent.unsubscribe(0);
-// })();
+
+(function observer() {
+	const someEvent = new Subject<string, Error>();
+
+	const firstSubscriber = someEvent.subscribe(
+		(res: string) => {
+			console.log('First event result:', res);
+		},
+		(err: Error) => {
+			console.log('error', err);
+		},
+		() => {
+			console.log('First event COMPLETED');
+		},
+	);
+
+	const secondSubscriber = someEvent.subscribe(
+		(res: string) => {
+			console.log('Second event result:', res);
+		}
+	);
+
+	someEvent.next('vasya');
+	someEvent.next('igor');
+	someEvent.next('oleg');
+	someEvent.next();
+
+	console.log('someSubId', firstSubscriber);
+	someEvent.unsubscribe(firstSubscriber);
+	someEvent.next('not oleg');
+	someEvent.complete();
+
+	someEvent.subscribe((v) => v);
+	someEvent.unsubscribe(0);
+})();
 
 
 // (function mediator() {
