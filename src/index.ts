@@ -12,6 +12,9 @@ import {Composite} from "./composite";
 import {Decorator} from "./decorator";
 import bigHome = Decorator.bigHome;
 import log = Decorator.log;
+import {Proxy} from "./proxy";
+import RealImage = Proxy.RealImage;
+import ProxyImage = Proxy.ProxyImage;
 
 // (function Decorator() {
 // 	@bigHome('triangle')
@@ -32,10 +35,18 @@ import log = Decorator.log;
 // 	const newOtherHouse = new otherHouse();
 // 	newOtherHouse.secondFloorLightOn();
 // })();
-//
-// (function Proxy() {
-//
-// })();
+
+(function Proxy() {
+	const image1 = new ProxyImage('Image1');
+	const image2 = new ProxyImage('Image2');
+
+	image1.displayImage();
+	image1.displayImage();
+
+	image2.displayImage();
+	image2.displayImage();
+	image2.displayImage();
+})();
 
 // (function composite() {
 // 	const factory1 = new Composite.CarFactory('Ferrari');

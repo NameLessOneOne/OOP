@@ -40,7 +40,7 @@ export class Subject<T, E extends Error> implements Observer<T, E> {
 		});
 
 		if (this.observers.length === 0) {
-			this.error(errorMessage.unsubscribe)
+			this.error(errorMessage.unsubscribe);
 		}
 	}
 
