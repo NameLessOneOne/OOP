@@ -1,18 +1,20 @@
 export class Mediator {
-	public send(name: string, message: string, receive: (name: string) => void) {
-		receive(name);
-		console.log(`Person ${name} says: ${message}`);
+	public send(person: Person) {
+		person.receive(person.name);
+		console.log(`Person ${person.name} says: ${person.message}`);
 	}
 }
 
 export class Person {
-	constructor(private mediator: Mediator, private name: string) {}
+	message = '';
+	constructor(private mediator: Mediator, public name: string) {}
 
 	public send(message: string) {
-		this.mediator.send(this.name, message, this.receive);
+		this.message = message;
+		this.mediator.send(this);
 	}
 
-	private receive(name: string) {
+	public receive(name: string) {
 		console.log(`Received message from ${name}`);
 	}
 }

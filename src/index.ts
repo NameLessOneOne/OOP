@@ -8,41 +8,93 @@ import Bridge1 = BridgeFactory.Bridge1;
 import Bridge2 = BridgeFactory.Bridge2;
 import {Subject} from "./observer";
 import {Mediator, Person} from "./mediator";
+import {Composite} from "./composite";
+import {Decorator} from "./decorator";
+import bigHome = Decorator.bigHome;
+import log = Decorator.log;
 
-(function observer() {
-	const someEvent = new Subject<string, Error>();
-	const someSubId = someEvent.subscribe(
-		(res: string) => {
-			console.log(res);
-		},
-		(err: Error) => {
-			console.log('error', err);
-		},
-		() => {
-			console.log('Complete');
-		},
-	);
+(function Decorator() {
+	@bigHome('triangle')
+	class Home {
+		name = 'Home';
 
-	const someSubId2 = someEvent.subscribe(
-		(res: string) => {
-			console.log(res);
+		@log
+		openTheDoor(frontDoor: string, backDoor: string) {
+			console.log(`Doing some stuff`);
 		}
-	);
+	}
 
-	console.log('someSub', someSubId);
+	const home = new Home();
+	home.openTheDoor('Front Door', 'Second Door');
+	console.log('home', home);
 
-	someEvent.next('vasya');
-	someEvent.next('igor');
-	someEvent.next('oleg');
-	someEvent.next();
-
-	// someEvent.unsubscribe(someSubId);
-	// someEvent.next('not oleg');
-	someEvent.complete();
-
-	someEvent.subscribe((v) => v);
-	someEvent.unsubscribe(0);
+	const otherHouse = bigHome()(class {});
+	const newOtherHouse = new otherHouse();
+	newOtherHouse.secondFloorLightOn();
 })();
+
+(function Proxy() {
+
+})();
+
+// (function composite() {
+// 	const factory1 = new Composite.CarFactory('Ferrari');
+// 	const factory2 = new Composite.CarFactory('Volkswagen');
+// 	const factory3 = new Composite.CarFactory('Honda');
+//
+// 	const car1 = new Composite.Car('F450');
+// 	const car2 = new Composite.Car('Golf');
+// 	const car3 = new Composite.Car('Civic');
+//
+// 	factory1.add(car1);
+// 	factory1.add(car1);
+//
+// 	factory2.add(car2);
+// 	factory2.add(car2);
+// 	factory2.add(car3);
+//
+// 	factory3.add(car3);
+// 	factory3.add(car3);
+//
+// 	factory1.display();
+// 	factory2.display();
+// 	factory3.display();
+// }());
+//
+// (function observer() {
+// 	const someEvent = new Subject<string, Error>();
+// 	const someSubId = someEvent.subscribe(
+// 		(res: string) => {
+// 			console.log(res);
+// 		},
+// 		(err: Error) => {
+// 			console.log('error', err);
+// 		},
+// 		() => {
+// 			console.log('Complete');
+// 		},
+// 	);
+//
+// 	const someSubId2 = someEvent.subscribe(
+// 		(res: string) => {
+// 			console.log(res);
+// 		}
+// 	);
+//
+// 	console.log('someSub', someSubId);
+//
+// 	someEvent.next('vasya');
+// 	someEvent.next('igor');
+// 	someEvent.next('oleg');
+// 	someEvent.next();
+//
+// 	// someEvent.unsubscribe(someSubId);
+// 	// someEvent.next('not oleg');
+// 	someEvent.complete();
+//
+// 	someEvent.subscribe((v) => v);
+// 	someEvent.unsubscribe(0);
+// })();
 
 
 // (function mediator() {
