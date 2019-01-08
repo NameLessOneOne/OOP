@@ -24,12 +24,12 @@ export namespace BridgeFactory {
 		}
 	}
 
-	interface AbstractBridgeI {
+	interface IAbstractBridge {
 		callMethod1(): void;
 		callMethod2(): void;
 	}
 
-	export class AbstractBridge implements AbstractBridgeI {
+	export class AbstractBridge implements IAbstractBridge {
 		public bridge: Bridge;
 
 		constructor(bridge: Bridge) {

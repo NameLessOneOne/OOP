@@ -1,41 +1,32 @@
 export namespace Composite {
-	export class CarFactory {
-		cars: Car[] = [];
+	export interface Car {
+		name: string;
+		display: () => void;
+	}
 
-		constructor(
-			public name: string,
-		) {
-		}
+	export class CarBrand implements Car {
+		carsList: Car[] = [];
+
+		constructor(public name: string) {}
 
 		add(car: Car): void {
-			this.cars.push(car);
+			this.carsList.push(car);
 		}
 
-		remove(car: Car): boolean {
-			for (let i = 0, length = this.cars.length; i < length; i++) {
-				if (this.cars[i] === car) {
-					this.cars.splice(i, 1);
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		getCarName(index: number) {
-			return this.cars[index].name;
-		}
-
-		display() {
-			console.log(this.name);
-			for (let i = 0, length = this.cars.length; i < length; i++) {
-				console.log('   ', this.getCarName(i));
+		display(): void {
+			console.log(`Brand ${this.name}`);
+			for (let i = 0, length = this.carsList.length; i < length; i++) {
+				this.carsList[i].display();
 			}
 		}
 	}
 
 
-	export class Car {
+	export class CarModel implements Car {
 		constructor(public name: string) {}
+
+		display(): void {
+			console.log(`  Model ${this.name}`);
+		}
 	}
 }
